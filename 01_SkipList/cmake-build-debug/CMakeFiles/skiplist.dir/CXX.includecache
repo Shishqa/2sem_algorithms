@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shishqa/CLionProjects/Algorithms/01_SkipList/main.cpp
+cstdio
+-
+vector
+-
+cstdlib
+-
+ctime
+-
+
