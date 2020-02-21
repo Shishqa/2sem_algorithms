@@ -1,3 +1,0 @@
-/home/shishqa/CLionProjects/Algorithms/skiplist/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/shishqa/CLionProjects/Algorithms/skiplist/cmake-build-debug/CMakeFiles/skiplist.dir
-/home/shishqa/CLionProjects/Algorithms/skiplist/cmake-build-debug/CMakeFiles/edit_cache.dir
