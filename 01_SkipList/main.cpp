@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 
 #undef DEBUG
 
@@ -27,15 +28,14 @@ public:
 
 private:
 
-    enum {
-        MAX_HEIGHT = 30,
-        MAX_SIZE   = 1 << MAX_HEIGHT
-    };
+    const size_t MAX_HEIGHT = 30;
+    const size_t MAX_SIZE   = 1 << MAX_HEIGHT;
 
     size_t size;
     size_t level;
 
     struct Tower {
+
         const int NIL_KEY   = __INT_MAX__;
         const int NIL_VALUE = -1;
 
@@ -60,7 +60,7 @@ Custom_SkipList::Custom_SkipList() {
     LOG( printf("list%p::constructor::->\n", this) );
 
     size  = 0;
-    level = 0;
+    level = 1;
 
     tail_sentinel = new Tower(MAX_HEIGHT, nullptr);
     head_sentinel = new Tower(MAX_HEIGHT, tail_sentinel);
@@ -75,7 +75,7 @@ Custom_SkipList::~Custom_SkipList() {
     Tower* next = nullptr;
 
     for (Tower* garbage = head_sentinel; garbage != nullptr; garbage = next) {
-        next = garbage->next[0];
+        next = garbage->next[1];
         garbage->next.clear();
         delete garbage;
     }
@@ -91,7 +91,7 @@ Custom_SkipList::Tower::Tower(const size_t t_height, Tower* arr_fill) {
     value = Tower::NIL_VALUE;
     next.assign(t_height, arr_fill);
 
-    LOG( printf("tower%p::constructor::done size = %lu\n", this, next.size()) );
+    LOG( printf("tower%p::constructor::done size = %d\n", this, next.size()) );
 }
 
 Custom_SkipList::Tower::~Tower() {
@@ -105,9 +105,11 @@ void Custom_SkipList::dump() {
 
     LOG( printf("list%p::dump:\n", this) );
 
-    for (Tower* curr_tower = head_sentinel; curr_tower != nullptr; curr_tower = curr_tower->next[0]) {
-        LOG( printf ("%p(%d) %s", curr_tower, curr_tower->key,
-                (curr_tower->next[0] ? "->" : "\n")) );
+    for (size_t lvl = 1; lvl <= level; ++lvl) {
+        for (Tower* curr_tower = head_sentinel; curr_tower != nullptr; curr_tower = curr_tower->next[lvl]) {
+            LOG( printf ("%p(%d)[h=%lu] %s", curr_tower, curr_tower->key, curr_tower->next.size(),
+                         curr_tower->next[0] ? "->" : "\n") );
+        }
     }
 }
 
@@ -119,7 +121,7 @@ std::vector<Custom_SkipList::Tower*>* Custom_SkipList::lookup(const int& search_
 
     Tower* curr_tower = head_sentinel;
 
-    for (int curr_lvl = level; curr_lvl >= 0; --curr_lvl) {
+    for (size_t curr_lvl = level; curr_lvl >= 1; --curr_lvl) {
         while (curr_tower->next[curr_lvl]->key < search_key) {
 
             curr_tower = curr_tower->next[curr_lvl];
@@ -134,17 +136,18 @@ std::vector<Custom_SkipList::Tower*>* Custom_SkipList::lookup(const int& search_
 
 size_t Custom_SkipList::rand_height() {
 
-    size_t rand_value = std::rand() % MAX_SIZE;
+    int rand_value = std::rand() % (MAX_SIZE >> 1) + 1;
     size_t height = 0;
 
     while (rand_value) {
         ++height;
-        rand_value >>= 1UL;
+        rand_value /= 2;
     }
 
-    LOG( printf("list%p::rnd_height::-> %lu\n", this, MAX_HEIGHT - height) );
+    LOG( printf("list%p::rnd_height::-> %d\n", this,
+            std::min(MAX_HEIGHT + 1 - height, MAX_HEIGHT)) );
 
-    return (MAX_HEIGHT - height + 1);
+    return (std::min(MAX_HEIGHT + 1 - height, MAX_HEIGHT));
 }
 
 void Custom_SkipList::insert(const int& key, const int& value) {
@@ -153,15 +156,15 @@ void Custom_SkipList::insert(const int& key, const int& value) {
 
     std::vector<Tower*>* update = lookup(key);
 
-    if (update->at(0)->next[0]->key == key) {
-        update->at(0)->next[0]->value = value;
+    if (update->at(1)->next[1]->key == key) {
+        update->at(1)->next[1]->value = value;
         delete update;
         return;
     }
 
-    size_t new_tower_height = rand_height();
+    int new_tower_height = rand_height();
 
-    if (new_tower_height > level + 1) {
+    if (new_tower_height - 1 > level) {
         for (size_t i = level + 1; i < new_tower_height; ++i) {
             update->at(i) = head_sentinel;
         }
@@ -177,7 +180,7 @@ void Custom_SkipList::insert(const int& key, const int& value) {
 
     ++size;
 
-    for (size_t i = 0; i < new_tower_height; ++i) {
+    for (size_t i = 1; i < new_tower_height; ++i) {
         new_tower->next[i] = update->at(i)->next[i];
         update->at(i)->next[i] = new_tower;
     }
@@ -187,7 +190,7 @@ void Custom_SkipList::insert(const int& key, const int& value) {
     update->clear();
     delete update;
 
-    LOG( printf("list%p::insert::done\n", this) );
+    LOG( printf("list%p::insert::done curr_level = %lu\n", this, level) );
     LOG( dump() );
 }
 
@@ -195,14 +198,14 @@ void Custom_SkipList::remove(const int& key) {
 
     std::vector<Tower*>* update = lookup(key);
 
-    Tower* garbage = update->at(0)->next[0];
+    Tower* garbage = update->at(1)->next[1];
 
     if (garbage->key != key || garbage == tail_sentinel) {
         delete update;
         return;
     }
 
-    for (size_t i = 0; i <= level; ++i) {
+    for (int i = 1; i <= level; ++i) {
         if (update->at(i)->next[i] != garbage) {
             break;
         }
@@ -221,7 +224,7 @@ void Custom_SkipList::remove(const int& key) {
     update->clear();
     delete update;
 
-    while (level > 0 && head_sentinel->next[level] == tail_sentinel) {
+    while (level > 1 && head_sentinel->next[level] == tail_sentinel) {
         --level;
     }
 
@@ -231,8 +234,8 @@ void Custom_SkipList::remove(const int& key) {
 
 int Custom_SkipList::extract_min() {
 
-    const int min_value = head_sentinel->next[0]->value;
-    const int min_key   = head_sentinel->next[0]->key;
+    const int min_value = head_sentinel->next[1]->value;
+    const int min_key   = head_sentinel->next[1]->key;
 
     remove(min_key);
 
@@ -248,6 +251,7 @@ int main() {
     std::srand(std::time(nullptr));
 
     const size_t n_colors = 3;
+    const size_t n_it_colors = 2;
 
     size_t shirt_count = 0;
     scanf("%lu", &shirt_count);
@@ -259,8 +263,6 @@ int main() {
 
     std::vector<std::vector<bool>> already_added(n_colors, std::vector(shirt_count, false));
     size_t curr_color = 0;
-
-    const size_t n_it_colors = 2;
 
     std::vector<Custom_SkipList> shirts(n_colors);
 
@@ -295,10 +297,15 @@ int main() {
 
         scanf("%lu", &favourite_color);
 
-        reasonable_price = shirts[favourite_color - 1].extract_min();
-        for (size_t i = 0; i < n_colors; ++i) {
-            shirts[i].remove(reasonable_price);
+        if (!shirts[favourite_color - 1].get_size()) {
+            reasonable_price = -1;
+        } else {
+            reasonable_price = shirts[favourite_color - 1].extract_min();
+            for (size_t i = 0; i < n_colors; ++i) {
+                shirts[i].remove(reasonable_price);
+            }
         }
+
         answer[i] = reasonable_price;
     }
 
