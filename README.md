@@ -1,5 +1,5 @@
-# Algorithms
+# Algorithms and Data Structures 
 
-Курс ведёт: Александр Гришутин
+* Lecturer: Aleksandr Grishutin
 
-Продолжительность курса: 2 семестра
+* Length of course: 2 semesters
