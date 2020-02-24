@@ -53,6 +53,18 @@ int main() {
 
     Custom_QuickHeap<int> test_heap(100);
 
+    for (int i = 100; i < 120; ++i) {
+        test_heap.insert((12999 * i + 21121) % 68311);
+        printf("%d ", (12999 * i + 21121) % 68311);
+    }
+    printf("\n");
+
+    test_heap.dump();
+
+    printf("min: %d\n", test_heap.peakMin());
+
+    test_heap.dump();
+
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }
@@ -94,10 +106,25 @@ Custom_QuickHeap<elem_type>::~Custom_QuickHeap() {
 }
 
 template <typename elem_type>
+void Custom_QuickHeap<elem_type>::dump() {
+    printf("current size = %lu\n", current_size);
+    printf("capacity = %lu\n", capacity);
+    printf("heap:");
+    for (size_t i = 0; i < current_size + 1; ++i) {
+        printf(" %d", heap->at((heap_begin + i) % capacity));
+    }
+    printf("\n");
+}
+
+template <typename elem_type>
 void Custom_QuickHeap<elem_type>::insert(const elem_type& element) {
     /*
      * @brief inserts element to the QuickHeap
      */
+    if (current_size == capacity - 1) {
+        return;
+    }
+
     std::stack<size_t> pivot_buffer;
     size_t pivot_index = pivots->top();
 
@@ -111,11 +138,11 @@ void Custom_QuickHeap<elem_type>::insert(const elem_type& element) {
 
     do {
         std::swap(moving_element, heap->at(pivot_index + 1));
-        std::swap(heap->at(pivot_index + 1), heap->at(pivot_index));
+        std::swap(heap->at((pivot_index + 1) % capacity), heap->at(pivot_index));
 
         pivot_buffer.push((pivot_index + 1) % capacity);
         pivots->pop();
-        pivot_index = (pivots->empty() ? pivots->top() : 0);
+        pivot_index = (!pivots->empty() ? pivots->top() : 0);
     } while (!pivots->empty());
 
     while (!pivot_buffer.empty()) {
@@ -132,7 +159,7 @@ elem_type Custom_QuickHeap<elem_type>::peakMin() {
      * @brief gets minimum in heap
      * @return minimum
      */
-    incremental_Qsort(heap, heap_begin, pivots);
+    incremental_Qsort(*heap, heap_begin, *pivots);
     return (heap->at(heap_begin));
 }
 
@@ -142,7 +169,7 @@ elem_type Custom_QuickHeap<elem_type>::extractMin() {
      * @brief gets minimum in heap and erases it
      * @return minimum
      */
-    incremental_Qsort(heap, heap_begin, pivots);
+    incremental_Qsort(*heap, heap_begin, *pivots);
     elem_type minimum = heap->at(heap_begin);
     heap_begin = (heap_begin + 1) % capacity;
     pivots->pop();
@@ -247,7 +274,7 @@ elem_type Custom_QuickHeap<elem_type>::pick_pivot(const std::vector<elem_type>& 
     }
 
     fprintf(log, "pivot::<-big\n");
-    elem_type median_of_medians = quickselect(medians, medians.size() / 2, 0, medians.size());
+    elem_type median_of_medians = quickselect_stat(medians, medians.size() / 2, 0, medians.size());
 
     return (median_of_medians);
 }
@@ -274,9 +301,9 @@ elem_type Custom_QuickHeap<elem_type>::quickselect_stat(std::vector<elem_type> &
         fprintf(log, "quickselect::<----\n");
         return (arr[pivot_pos]);
     } else if (pivot_pos < k) {
-        return (quickselect(arr, k - pivot_pos, pivot_pos + 1, arr_end));
+        return (quickselect_stat(arr, k - pivot_pos, pivot_pos + 1, arr_end));
     } else {
-        return (quickselect(arr, k, arr_begin, pivot_pos));
+        return (quickselect_stat(arr, k, arr_begin, pivot_pos));
     }
 }
 

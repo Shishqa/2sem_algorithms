@@ -1,0 +1,62 @@
+IQS::->
+IQS::picking pivot on [0, 20)
+pivot::->median of medians
+insertion::->
+insertion::<-36111
+0 median is 36111
+insertion::->
+insertion::<-32795
+1 median is 32795
+insertion::->
+insertion::<-29479
+2 median is 29479
+insertion::->
+insertion::<-39162
+3 median is 39162
+pivot::<-big
+quickselect::->
+quickselect::<----insertion
+insertion::->
+insertion::<-32795
+IQS::pivot = 32795
+partition::->32795 [0, 20)
+partition::<-23112 6797 19796 3481 16480 29479 165 13164 26163 32795 49110 45794 42478 55477 58793 62109 36111 39162 52161 65160 [9, 10, 19]
+IQS::pivot pos = 9
+IQS::->
+IQS::picking pivot on [0, 9)
+pivot::->median of medians
+insertion::->
+insertion::<-16480
+0 median is 16480
+insertion::->
+insertion::<-26163
+1 median is 26163
+pivot::<-big
+quickselect::->
+quickselect::<----insertion
+insertion::->
+insertion::<-16480
+IQS::pivot = 16480
+partition::->16480 [0, 9)
+partition::<-6797 3481 165 13164 16480 19796 23112 29479 26163 [4, 5, 8]
+IQS::pivot pos = 4
+IQS::->
+IQS::picking pivot on [0, 4)
+pivot::->median of medians
+insertion::->
+insertion::<-6797
+IQS::pivot = 6797
+partition::->6797 [0, 4)
+partition::<-3481 165 6797 13164 [2, 3, 3]
+IQS::pivot pos = 2
+IQS::->
+IQS::picking pivot on [0, 2)
+pivot::->median of medians
+insertion::->
+insertion::<-3481
+IQS::pivot = 3481
+partition::->3481 [0, 2)
+partition::<-3481 165 [0, 1, 1]
+IQS::pivot pos = 0
+IQS::->
+IQS::<------------
