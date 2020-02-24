@@ -9,12 +9,16 @@
 /home/shishqa/Repository/MIPT/2_semester/Algorithms/02_QuickHeap/main.cpp
 iostream
 -
-utility
--
 vector
 -
 stack
 -
 algorithm
+-
+cassert
+-
+utility
+-
+deque
 -
 
