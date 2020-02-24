@@ -69,6 +69,20 @@ Custom_QuickHeap<key_t, val_t>::Custom_QuickHeap(const std::vector<std::pair<key
     }
 }
 
+template <typename key_t, typename val_t>
+Custom_QuickHeap<key_t, val_t>::~Custom_QuickHeap() {
+    /*
+     * @brief destructor of QuickHeap
+     */
+    while (!pivots->empty()) {
+        pivots->pop();
+    }
+    delete pivots;
+
+    heap->clear();
+    delete heap;
+}
+
 int main() {
     std::cout << "Hello, World!" << std::endl;
     return 0;
