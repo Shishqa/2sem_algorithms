@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <stack>
-#include <algorithm>
-#include <cassert>
 #include <utility>
 #include <deque>
 
@@ -51,19 +49,25 @@ private:
 
 int main() {
 
-    Custom_QuickHeap<int> test_heap(100);
+    Custom_QuickHeap<int> test_heap(50);
 
-    for (int i = 100; i < 120; ++i) {
-        test_heap.insert((12999 * i + 21121) % 68311);
-        printf("%d ", (12999 * i + 21121) % 68311);
+    for (int i = 40; i >= 0; --i) {
+        test_heap.insert(i);
     }
     printf("\n");
 
     test_heap.dump();
 
-    printf("min: %d\n", test_heap.peakMin());
-
-    test_heap.dump();
+    for (int i = 0; i < 41; ++i) {
+        if (test_heap.peakMin() != i) {
+            printf("NOT_OK: %d != %d\n", i, test_heap.peakMin());
+        } else {
+            printf("OK: %d == %d\n", i, test_heap.peakMin());
+        }
+        test_heap.extractMin();
+        test_heap.dump();
+        printf("\n");
+    }
 
     std::cout << "Hello, World!" << std::endl;
     return 0;
@@ -110,10 +114,31 @@ void Custom_QuickHeap<elem_type>::dump() {
     printf("current size = %lu\n", current_size);
     printf("capacity = %lu\n", capacity);
     printf("heap:");
-    for (size_t i = 0; i < current_size + 1; ++i) {
-        printf(" %d", heap->at((heap_begin + i) % capacity));
+    for (size_t i = 0; i < capacity; ++i) {
+        if (i == heap_begin) {
+            printf("{");
+        }
+        printf(" %d", heap->at(i));
+        if (i == (heap_begin + current_size) % capacity) {
+            printf("}");
+        }
     }
     printf("\n");
+
+    std::stack<size_t> pivot_buffer;
+
+    printf("stack:");
+    while (!pivots->empty()) {
+        printf(" %lu", pivots->top());
+        pivot_buffer.push(pivots->top());
+        pivots->pop();
+    }
+    while (!pivot_buffer.empty()) {
+        pivots->push(pivot_buffer.top());
+        pivot_buffer.pop();
+    }
+    printf("\n");
+
 }
 
 template <typename elem_type>
@@ -169,10 +194,14 @@ elem_type Custom_QuickHeap<elem_type>::extractMin() {
      * @brief gets minimum in heap and erases it
      * @return minimum
      */
+    fprintf(log, "extraction-------->\n");
     incremental_Qsort(*heap, heap_begin, *pivots);
     elem_type minimum = heap->at(heap_begin);
     heap_begin = (heap_begin + 1) % capacity;
     pivots->pop();
+
+    --current_size;
+    fprintf(log, "extraction<----{%d}----size = %lu\n", minimum, current_size);
     return (minimum);
 }
 
@@ -186,7 +215,6 @@ size_t Custom_QuickHeap<elem_type>::incremental_Qsort(std::vector<elem_type>& ar
     fprintf(log, "IQS::->\n");
 
     if (arr_begin == pivot_stack.top()) {
-        pivot_stack.pop();
         fprintf(log, "IQS::<------------\n");
         return (arr[arr_begin]);
     }
@@ -212,17 +240,23 @@ size_t Custom_QuickHeap<elem_type>::do_partition(std::vector<elem_type>& arr, co
      * @brief classical partition
      */
 
-    fprintf(log, "partition::->%d [%lu, %lu)\n", pivot, arr_begin, arr_end);
+    fprintf(log, "partition::->{%d}\t ", pivot);
+    for (size_t i = arr_begin; i < arr_end; ++i) {
+        fprintf(log, "%d ", arr[i]);
+    }
+    fprintf(log, "[%lu, %lu)\n", arr_begin, arr_end);
 
     size_t less_idx    = arr_begin;
     size_t equal_idx   = arr_begin;
     size_t greater_idx = arr_begin;
 
-    for (; greater_idx < arr_end - 1; ++greater_idx) {
+    elem_type temp_elem = 0;
+
+    for (; greater_idx < arr_end; ++greater_idx) {
         if (arr[greater_idx] == pivot) {
             std::swap(arr[equal_idx++], arr[greater_idx]);
         } else if (arr[greater_idx] < pivot) {
-            elem_type temp_elem = arr[greater_idx];
+            temp_elem = arr[greater_idx];
             arr[greater_idx] = arr[equal_idx + 1];
             arr[equal_idx + 1] = arr[equal_idx];
             arr[equal_idx++] = arr[less_idx + 1];
@@ -231,7 +265,7 @@ size_t Custom_QuickHeap<elem_type>::do_partition(std::vector<elem_type>& arr, co
         }
     }
 
-    fprintf(log, "partition::<-");
+    fprintf(log, "partition::<-\t\t\t");
     for (size_t i = arr_begin; i < arr_end; ++i) {
         fprintf(log, "%d ", arr[i]);
     }
@@ -269,7 +303,7 @@ elem_type Custom_QuickHeap<elem_type>::pick_pivot(const std::vector<elem_type>& 
         if (i + CHUNK_SIZE > arr_end) {
             chunk.resize(arr_end - i);
         }
-        medians[i / 5] = insertion_stat(chunk, chunk.size() / 2, 0, chunk.size());
+        medians[(i - arr_begin) / 5] = insertion_stat(chunk, chunk.size() / 2, 0, chunk.size());
         fprintf(log, "%lu median is %d\n", i / 5, medians[i / 5]);
     }
 
@@ -314,15 +348,29 @@ elem_type Custom_QuickHeap<elem_type>::insertion_stat(std::vector<elem_type>& ar
      * @brief insertion sort
      * @return k_th statistics
      */
-    fprintf(log, "insertion::->\n");
+    fprintf(log, "insertion::-> %lu [%lu,%lu)\narr: ", k, arr_begin, arr_end);
+    for (size_t i = arr_begin; i < arr_end; ++i) {
+        fprintf(log, "%d ", arr[i]);
+    }
+    fprintf(log, "\n");
 
     for (size_t i = arr_begin + 1; i < arr_end; ++i) {
         for (size_t j = i; j > arr_begin && arr[j - 1] > arr[j]; --j) {
             std::swap(arr[j - 1], arr[j]);
         }
     }
-    fprintf(log, "insertion::<-%d\n", arr[k]);
-    return (arr[k]);
+    fprintf(log, "insertion::<-\n");
+    for (size_t i = arr_begin; i < arr_end; ++i) {
+        if (i == arr_begin + k) {
+            fprintf(log, "{");
+        }
+        fprintf(log, "%d ", arr[i]);
+        if (i == arr_begin + k) {
+            fprintf(log, "}");
+        }
+    }
+    fprintf(log, "\n");
+    return (arr[arr_begin + k]);
 }
 
 
