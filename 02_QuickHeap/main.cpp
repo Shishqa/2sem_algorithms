@@ -85,7 +85,7 @@ public:
     static int cmp_blocks(Block * a, Block * b);
 
 private:
-    const size_t MAX_BLOCK_CNT = 300000;
+    const size_t MAX_BLOCK_CNT = 400000;
 
     enum {
         FULL = 0,
@@ -129,7 +129,7 @@ int main() {
             if (!request_results[i]) {
                 printf("-1\n");
             } else {
-                printf("%lu\n", request_results[i]->begin);
+                printf("%u\n", request_results[i]->begin);
             }
 
         } else if (request_results[-request]) {
@@ -206,22 +206,30 @@ int Memory_manager::cmp_blocks(Block *const a, Block *const b) {
         return (LESS);
     } else if (a->size < b->size) {
         return (GREATER);
+    } else if (a->begin < b->begin) {
+        return (LESS);
+    } else if (a->begin > b->begin) {
+        return (GREATER);
     }
     return (EQUAL);
 }
 
 void Memory_manager::remove_rubbish() {
-
+    /*
+     * @brief Removes not valid blocks from the top of heap
+     */
     Block* rubbish = nullptr;
 
-    while (empty_blocks->size() && !empty_blocks->peakMin()->is_valid) {
+    while (empty_blocks->size() && empty_blocks->peakMin()->is_valid == NOT_VALID) {
         rubbish = empty_blocks->extractMin();
         delete rubbish;
     }
 }
 
 Memory_manager::Block* Memory_manager::allocate(size_t block_size) {
-
+    /*
+     * @brief Allocates a block of memory
+     */
     remove_rubbish();
 
     if (!empty_blocks->size() || empty_blocks->peakMin()->size < block_size) {
@@ -256,7 +264,9 @@ Memory_manager::Block* Memory_manager::allocate(size_t block_size) {
 }
 
 void Memory_manager::free(Block *const block) {
-
+    /*
+     * @brief Clears the block of memory
+     */
     size_t new_begin = block->begin;
     size_t new_size = block->size;
 
