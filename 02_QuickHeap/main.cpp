@@ -13,7 +13,7 @@ class Custom_QuickHeap {
  */
 public:
     explicit Custom_QuickHeap(size_t max_capacity, elem_type MAX_BORDER,
-                              int (*cmp)(const elem_type a, const elem_type b) = default_comparator);
+                              int (*cmp)(elem_type a, elem_type b) = default_comparator);
     ~Custom_QuickHeap();
 
     void insert(const elem_type& element);
@@ -38,9 +38,9 @@ private:
      *                  positive int if a > b
      *                  negative int if a < b
      */
-    int (*cmp_elem)(const elem_type a, const elem_type b);
+    int (*cmp_elem)(elem_type a, elem_type b);
 
-    static int default_comparator(const elem_type a, const elem_type b);
+    static int default_comparator(elem_type a, elem_type b);
 
     elem_type incremental_Qsort(std::vector<elem_type>& arr, size_t arr_begin,
                                 std::stack<size_t>& pivot_stack);
@@ -85,7 +85,7 @@ public:
     static int cmp_blocks(Block * a, Block * b);
 
 private:
-    const size_t MAX_BLOCK_CNT = 400000;
+    const size_t MAX_BLOCK_CNT = 600000;
 
     enum {
         FULL = 0,
@@ -115,7 +115,13 @@ int main() {
     size_t num_requests = 0;
     scanf("%lu", &num_requests);
 
+    enum {
+        ALLOC = 0,
+        FREE = 1
+    };
+
     std::vector<Memory_manager::Block*> request_results(num_requests + 1, nullptr);
+    std::vector<bool> request_type(num_requests + 1);
 
     long request = 0;
 
@@ -131,10 +137,14 @@ int main() {
             } else {
                 printf("%u\n", request_results[i]->begin);
             }
+            request_type[i] = ALLOC;
 
-        } else if (request_results[-request]) {
-
-            RAM_director.free(request_results[-request]);
+        } else if (request_type[-request] == ALLOC) {
+            if (request_results[-request]) {
+                RAM_director.free(request_results[-request]);
+            }
+            request_type[i] = FREE;
+            request_type[-request] = FREE;
         }
     }
 
@@ -163,8 +173,8 @@ Memory_manager::~Memory_manager() {
 
     do {
         garbage = memory_list_it;
-        delete garbage;
         memory_list_it = memory_list_it->next_block;
+        delete garbage;
     } while (memory_list_it);
 
     delete empty_blocks;
@@ -205,10 +215,6 @@ int Memory_manager::cmp_blocks(Block *const a, Block *const b) {
     if (a->size > b->size) {
         return (LESS);
     } else if (a->size < b->size) {
-        return (GREATER);
-    } else if (a->begin < b->begin) {
-        return (LESS);
-    } else if (a->begin > b->begin) {
         return (GREATER);
     }
     return (EQUAL);
@@ -267,6 +273,11 @@ void Memory_manager::free(Block *const block) {
     /*
      * @brief Clears the block of memory
      */
+
+    if (!block) {
+        return;
+    }
+
     size_t new_begin = block->begin;
     size_t new_size = block->size;
 
