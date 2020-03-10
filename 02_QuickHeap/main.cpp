@@ -132,8 +132,7 @@ int main() {
                 printf("%lu\n", request_results[i]->begin);
             }
 
-        } else if (request_results[-request]) {
-
+        } else  {
             RAM_director.free(request_results[-request]);
         }
     }
@@ -257,22 +256,26 @@ Memory_manager::Block* Memory_manager::allocate(size_t block_size) {
 
 void Memory_manager::free(Block *const block) {
 
+    if (!block) {
+        return;
+    }
+
     size_t new_begin = block->begin;
     size_t new_size = block->size;
 
     Block* right_neighbour = block->next_block;
     Block* left_neighbour  = block->prev_block;
 
-    if (block->next_block->is_empty) {
-        block->next_block->is_valid = NOT_VALID;
-        new_size += block->next_block->size;
-        right_neighbour = block->next_block->next_block;
+    if (right_neighbour->is_empty) {
+        right_neighbour->is_valid = NOT_VALID;
+        new_size += right_neighbour->size;
+        right_neighbour = right_neighbour->next_block;
     }
-    if (block->prev_block->is_empty) {
-        block->prev_block->is_valid = NOT_VALID;
-        new_size += block->prev_block->size;
-        left_neighbour = block->prev_block->prev_block;
-        new_begin = block->prev_block->begin;
+    if (left_neighbour->is_empty) {
+        left_neighbour->is_valid = NOT_VALID;
+        new_size += left_neighbour->size;
+        new_begin = left_neighbour->begin;
+        left_neighbour = left_neighbour->prev_block;
     }
 
     delete block;

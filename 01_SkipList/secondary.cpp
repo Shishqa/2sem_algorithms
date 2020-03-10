@@ -1,3 +1,4 @@
+
 #include <cstdio>
 #include <vector>
 #include <cstdlib>
@@ -43,7 +44,7 @@ private:
         int value;
         std::vector<Tower*> next;
 
-        explicit Tower(size_t t_height, Tower* arr_fill = nullptr);
+        Tower(const size_t t_height, Tower* arr_fill = nullptr);
         ~Tower();
     };
 
@@ -54,78 +55,6 @@ private:
 
     size_t rand_height();
 };
-
-int main() {
-
-    std::srand(std::time(nullptr));
-
-    const size_t n_colors = 3;
-    const size_t n_it_colors = 2;
-
-    size_t shirt_count = 0;
-    scanf("%lu", &shirt_count);
-
-    std::vector<int> shirt_cost(shirt_count);
-    for (size_t i = 0; i < shirt_count; ++i) {
-        scanf("%d", &shirt_cost[i]);
-    }
-
-    std::vector<std::vector<bool>> already_added(n_colors, std::vector(shirt_count, false));
-    size_t curr_color = 0;
-
-    std::vector<Custom_SkipList> shirts(n_colors);
-
-    LOG( printf("created lists\n") );
-    LOG( printf("adding shirts\n"));
-
-    for (size_t k = 0; k < n_it_colors; ++k) {
-        for (size_t i = 0; i < shirt_count; ++i) {
-
-            scanf("%lu", &curr_color);
-
-            if(!already_added[curr_color - 1][i]) {
-                already_added[curr_color - 1][i] = true;
-                shirts[curr_color - 1].insert(shirt_cost[i], shirt_cost[i]);
-            }
-        }
-    }
-    LOG( printf("added shirts\n") );
-
-    size_t customers_count = 0;
-    scanf("%lu", &customers_count);
-
-    std::vector<int> answer(customers_count);
-
-    size_t favourite_color = 0;
-
-    LOG( printf("customers came\n") );
-
-    int reasonable_price = 0;
-
-    for (size_t i = 0; i < customers_count; ++i) {
-
-        scanf("%lu", &favourite_color);
-
-        if (!shirts[favourite_color - 1].get_size()) {
-            reasonable_price = -1;
-        } else {
-            reasonable_price = shirts[favourite_color - 1].extract_min();
-            for (size_t j = 0; j < n_colors; ++j) {
-                shirts[j].remove(reasonable_price);
-            }
-        }
-
-        answer[i] = reasonable_price;
-    }
-
-    for (size_t i = 0; i < customers_count; ++i) {
-        printf("%d ", answer[i]);
-    }
-
-    printf("\n");
-
-    return 0;
-}
 
 Custom_SkipList::Custom_SkipList() {
 
@@ -217,7 +146,7 @@ size_t Custom_SkipList::rand_height() {
     }
 
     LOG( printf("list%p::rnd_height::-> %d\n", this,
-            std::min(MAX_HEIGHT + 1 - height, MAX_HEIGHT)) );
+                std::min(MAX_HEIGHT + 1 - height, MAX_HEIGHT)) );
 
     return (std::min(MAX_HEIGHT + 1 - height, MAX_HEIGHT));
 }
@@ -248,7 +177,7 @@ void Custom_SkipList::insert(const int& key, const int& value) {
     new_tower->value = value;
 
     LOG( printf("list%p::insert::inserted k%d v%d with height %lu\n",
-            this, key, value, new_tower_height) );
+                this, key, value, new_tower_height) );
 
     ++size;
 
@@ -285,7 +214,7 @@ void Custom_SkipList::remove(const int& key) {
     }
 
     LOG( printf("list::remove::deleting k%d v%d with height %lu\n",
-            garbage->key, garbage->value, garbage->next.size()) );
+                garbage->key, garbage->value, garbage->next.size()) );
 
     delete garbage;
 
@@ -318,3 +247,74 @@ size_t Custom_SkipList::get_size() {
     return (size);
 }
 
+int main() {
+
+    std::srand(std::time(nullptr));
+
+    const size_t n_colors = 3;
+    const size_t n_it_colors = 2;
+
+    size_t shirt_count = 0;
+    scanf("%lu", &shirt_count);
+
+    std::vector<int> shirt_cost(shirt_count);
+    for (size_t i = 0; i < shirt_count; ++i) {
+        scanf("%d", &shirt_cost[i]);
+    }
+
+    std::vector<std::vector<bool>> already_added(n_colors, std::vector(shirt_count, false));
+    size_t curr_color = 0;
+
+    std::vector<Custom_SkipList> shirts(n_colors);
+
+    LOG( printf("created lists\n") );
+    LOG( printf("adding shirts\n"));
+
+    for (size_t k = 0; k < n_it_colors; ++k) {
+        for (size_t i = 0; i < shirt_count; ++i) {
+
+            scanf("%lu", &curr_color);
+
+            if(!already_added[curr_color - 1][i]) {
+                already_added[curr_color - 1][i] = true;
+                shirts[curr_color - 1].insert(shirt_cost[i], shirt_cost[i]);
+            }
+        }
+    }
+    LOG( printf("added shirts\n") );
+
+    size_t customers_count = 0;
+    scanf("%lu", &customers_count);
+
+    std::vector<int> answer(customers_count);
+
+    size_t favourite_color = 0;
+
+    LOG( printf("customers came\n") );
+
+    int reasonable_price = 0;
+
+    for (size_t i = 0; i < customers_count; ++i) {
+
+        scanf("%lu", &favourite_color);
+
+        if (!shirts[favourite_color - 1].get_size()) {
+            reasonable_price = -1;
+        } else {
+            reasonable_price = shirts[favourite_color - 1].extract_min();
+            for (size_t i = 0; i < n_colors; ++i) {
+                shirts[i].remove(reasonable_price);
+            }
+        }
+
+        answer[i] = reasonable_price;
+    }
+
+    for (size_t i = 0; i < customers_count; ++i) {
+        printf("%d ", answer[i]);
+    }
+
+    printf("\n");
+
+    return 0;
+}

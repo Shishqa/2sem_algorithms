@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/shishqa/CLionProjects/Algorithms/01_SkipList/main.cpp
+/home/shishqa/Repository/MIPT/2_semester/Algorithms/01_SkipList/main.cpp
 cstdio
 -
 vector

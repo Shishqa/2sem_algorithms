@@ -48,10 +48,10 @@ RM = /home/shishqa/clion-2019.3.4/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/shishqa/CLionProjects/Algorithms/01_SkipList
+CMAKE_SOURCE_DIR = /home/shishqa/Repository/MIPT/2_semester/Algorithms/01_SkipList
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/shishqa/CLionProjects/Algorithms/01_SkipList/cmake-build-debug
+CMAKE_BINARY_DIR = /home/shishqa/Repository/MIPT/2_semester/Algorithms/01_SkipList/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shishqa/CLionProjects/Algorithms/01_SkipList/cmake-build-debug/CMakeFiles /home/shishqa/CLionProjects/Algorithms/01_SkipList/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shishqa/Repository/MIPT/2_semester/Algorithms/01_SkipList/cmake-build-debug/CMakeFiles /home/shishqa/Repository/MIPT/2_semester/Algorithms/01_SkipList/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shishqa/CLionProjects/Algorithms/01_SkipList/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shishqa/Repository/MIPT/2_semester/Algorithms/01_SkipList/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -150,6 +150,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/skiplist.dir/build.make CMakeFiles/skiplist.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+secondary.o: secondary.cpp.o
+
+.PHONY : secondary.o
+
+# target to build an object file
+secondary.cpp.o:
+	$(MAKE) -f CMakeFiles/skiplist.dir/build.make CMakeFiles/skiplist.dir/secondary.cpp.o
+.PHONY : secondary.cpp.o
+
+secondary.i: secondary.cpp.i
+
+.PHONY : secondary.i
+
+# target to preprocess a source file
+secondary.cpp.i:
+	$(MAKE) -f CMakeFiles/skiplist.dir/build.make CMakeFiles/skiplist.dir/secondary.cpp.i
+.PHONY : secondary.cpp.i
+
+secondary.s: secondary.cpp.s
+
+.PHONY : secondary.s
+
+# target to generate assembly for a file
+secondary.cpp.s:
+	$(MAKE) -f CMakeFiles/skiplist.dir/build.make CMakeFiles/skiplist.dir/secondary.cpp.s
+.PHONY : secondary.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +189,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... secondary.o"
+	@echo "... secondary.i"
+	@echo "... secondary.s"
 .PHONY : help
 
 
