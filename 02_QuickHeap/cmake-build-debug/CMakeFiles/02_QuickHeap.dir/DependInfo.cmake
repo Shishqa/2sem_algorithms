@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/shishqa/CLionProjects/Algorithms/02_QuickHeap/main.cpp" "/home/shishqa/CLionProjects/Algorithms/02_QuickHeap/cmake-build-debug/CMakeFiles/02_QuickHeap.dir/main.cpp.o"
+  "C:/Users/shishatskiy/Desktop/Repository/MIPT/2_semester/Algorithms_Grishutin/02_QuickHeap/main.cpp" "C:/Users/shishatskiy/Desktop/Repository/MIPT/2_semester/Algorithms_Grishutin/02_QuickHeap/cmake-build-debug/CMakeFiles/02_QuickHeap.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

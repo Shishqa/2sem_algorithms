@@ -1,4 +1,4 @@
-# Install script for directory: /home/shishqa/CLionProjects/Algorithms/01_SkipList
+# Install script for directory: /home/shishqa/Repository/MIPT/2_semester/Algorithms/01_SkipList
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/shishqa/CLionProjects/Algorithms/01_SkipList/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/shishqa/Repository/MIPT/2_semester/Algorithms/01_SkipList/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

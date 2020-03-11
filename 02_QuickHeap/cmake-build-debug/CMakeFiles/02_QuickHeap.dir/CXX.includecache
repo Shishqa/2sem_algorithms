@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/shishatskiy/Desktop/Repository/MIPT/2_semester/Algorithms_Grishutin/02_QuickHeap/main.cpp
+vector
+-
+stack
+-
+utility
+-
+deque
+-
+cstring
+-
+stdexcept
+-
+
