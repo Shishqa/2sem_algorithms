@@ -1,0 +1,3 @@
+/home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/A_следующий/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/A_следующий/cmake-build-debug/CMakeFiles/A_.dir
+/home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/A_следующий/cmake-build-debug/CMakeFiles/edit_cache.dir
