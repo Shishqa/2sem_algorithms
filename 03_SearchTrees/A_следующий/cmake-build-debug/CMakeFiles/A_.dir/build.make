@@ -34,10 +34,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /var/lib/snapd/snap/clion/103/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /var/lib/snapd/snap/clion/107/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /var/lib/snapd/snap/clion/103/bin/cmake/linux/bin/cmake -E remove -f
+RM = /var/lib/snapd/snap/clion/107/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
