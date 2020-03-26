@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -fsanitize=address -g   CMakeFiles/D_kth_max.dir/main.cpp.o  -o D_kth_max 

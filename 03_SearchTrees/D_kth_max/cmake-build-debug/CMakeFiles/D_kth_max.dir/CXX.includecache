@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/D_kth_max/main.cpp
+iostream
+-
+vector
+-
+utility
+-
+stdexcept
+-
+algorithm
+-
+cstdio
+-
+ctime
+-
+
