@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/F_sets/main.cpp
+iostream
+-
+set
+-
+map
+-
+vector
+-
+
