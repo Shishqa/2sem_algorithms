@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shishqa/Repositories/MIPT/2-semester/Algorithms_Grishutin/03_SearchTrees/E_cars/main.cpp
+iostream
+-
+vector
+-
+set
+-
+utility
+-
+queue
+-
+

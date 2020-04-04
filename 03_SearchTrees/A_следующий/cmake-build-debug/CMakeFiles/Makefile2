@@ -44,10 +44,10 @@ RM = /var/lib/snapd/snap/clion/107/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/A_следующий
+CMAKE_SOURCE_DIR = /home/shishqa/Repositories/MIPT/2-semester/Algorithms_Grishutin/03_SearchTrees/A_следующий
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/A_следующий/cmake-build-debug
+CMAKE_BINARY_DIR = /home/shishqa/Repositories/MIPT/2-semester/Algorithms_Grishutin/03_SearchTrees/A_следующий/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -74,14 +74,14 @@ preinstall:
 CMakeFiles/A_.dir/all:
 	$(MAKE) -f CMakeFiles/A_.dir/build.make CMakeFiles/A_.dir/depend
 	$(MAKE) -f CMakeFiles/A_.dir/build.make CMakeFiles/A_.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/A_следующий/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target A_"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shishqa/Repositories/MIPT/2-semester/Algorithms_Grishutin/03_SearchTrees/A_следующий/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target A_"
 .PHONY : CMakeFiles/A_.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/A_.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/A_следующий/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shishqa/Repositories/MIPT/2-semester/Algorithms_Grishutin/03_SearchTrees/A_следующий/cmake-build-debug/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/A_.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shishqa/Repositories/MIPT/2_semester/Algorithms/03_SearchTrees/A_следующий/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shishqa/Repositories/MIPT/2-semester/Algorithms_Grishutin/03_SearchTrees/A_следующий/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/A_.dir/rule
 
 # Convenience name for target.
