@@ -1,76 +1,106 @@
-#include <cstdio>
-#include <vector>
 #include <iostream>
-#include <stack>
+#include <vector>
+#include <algorithm>
 
-struct Stat {
+class FenwickTree {
+public:
 
-    size_t less_left;
-    size_t greater_left;
-    size_t less_right;
-    size_t greater_right;
+    explicit FenwickTree(const uint32_t& size);
 
-    size_t left_lower_bound;
-    size_t left_upper_bound;
-    size_t right_lower_bound;
-    size_t right_upper_bound;
+    ~FenwickTree();
 
-    Stat() = default;
-    Stat(const Stat& other) = default;
-    ~Stat() = default;
+    unsigned long long sum(const uint32_t& idx);
+
+    void inc(const uint32_t& idx);
+
+private:
+
+    const uint32_t size;
+
+    uint32_t* tree;
 };
+
+struct SoldierStat {
+
+    uint32_t power;
+    uint32_t idx;
+
+    SoldierStat() = default;
+    SoldierStat(const SoldierStat& other) = default;
+    ~SoldierStat() = default;
+};
+
+bool cmp_stat(const SoldierStat& stat_1, const SoldierStat& stat_2);
 
 int main() {
 
-    size_t data_size = 0;
-    scanf("%lu", &data_size);
+    std::ios_base::sync_with_stdio(false);
 
-    std::vector<int> data(data_size);
+    uint32_t soldiers_count = 0;
+    std::cin >> soldiers_count;
 
-    for (size_t i = 0; i < data_size; ++i) {
-        scanf("%d", &data[i]);
+    std::vector<SoldierStat> soldiers_stats(soldiers_count);
+
+    for (uint32_t i = 0; i < soldiers_count; ++i) {
+        std::cin >> soldiers_stats[i].power;
+        soldiers_stats[i].idx = i;
     }
 
-    std::vector<Stat> stats(data_size);
+    std::sort(soldiers_stats.begin(), soldiers_stats.end(), cmp_stat);
 
-    stats[0].greater_left = 0;
-    stats[0].less_left = 0;
-    stats[data_size - 1].greater_right = 0;
-    stats[data_size - 1].less_right = 0;
+    FenwickTree prefix_superiors(soldiers_count);
 
-    std::stack<size_t> left_less;
-    std::stack<size_t> left_greater;
-    std::stack<size_t> right_less;
-    std::stack<size_t> right_greater;
+    unsigned long long left_superior_cnt  = 0;
+    unsigned long long right_inferior_cnt = 0;
+    unsigned long long weakness_index     = 0;
 
-    for (size_t i = 1, j = data_size - 2; i < data_size - 1; ++i, --j) {
+    for (uint32_t i = 0; i < soldiers_count; ++i) {
+        left_superior_cnt = prefix_superiors.sum(soldiers_stats[i].idx);
+        prefix_superiors.inc(soldiers_stats[i].idx);
 
-        if (data[i - 1] < data[i]) {
-            stats[i].less_left = stats[i - 1].less_left + 1;
-            stats[i].greater_left = stats[stats[i].left_lower_bound].greater_left + 1;
-        } else {
-            stats[i].greater_left = stats[i - 1].greater_left + 1;
-            stats[i].less_left = stats[stats[i].left_upper_bound].less_left + 1;
-        }
+        right_inferior_cnt = soldiers_count + left_superior_cnt - soldiers_stats[i].idx  - i - 1;
 
-        if (data[j] < data[j + 1]) {
-            stats[j].greater_right = stats[j + 1].greater_right + 1;
-            stats[j].less_right = i - stats[j].greater_right;
-        } else {
-            stats[j].less_right = stats[j + 1].less_right + 1;
-            stats[j].greater_right = i - stats[j].less_right;
-        }
-
+        weakness_index += left_superior_cnt * right_inferior_cnt;
     }
 
-    for (size_t i = 0; i < data_size; ++i) {
-
-        std::cout << data[i] << "(" << i <<  ")\t| ";
-        std::cout << " left:\t '<' " << stats[i].less_left << " '>' " << stats[i].greater_left;
-        std::cout << " right:\t '<' " << stats[i].less_right << " '>' " << stats[i].greater_right;
-        std::cout << std::endl;
-
-    }
+    std::cout << weakness_index << std::endl;
 
     return 0;
+}
+
+bool cmp_stat(const SoldierStat& stat_1, const SoldierStat& stat_2) {
+    return stat_1.power > stat_2.power;
+}
+
+void FenwickTree::inc(const uint32_t& idx) {
+
+    for (int32_t i = idx; i < size; i |= i + 1) {
+        ++tree[i];
+    }
+}
+
+unsigned long long FenwickTree::sum(const uint32_t& idx) {
+
+    uint32_t sum = 0;
+
+    for (int32_t i = idx; i >= 0; i = (i & (i + 1)) - 1) {
+        sum += tree[i];
+    }
+
+    return sum;
+}
+
+FenwickTree::FenwickTree(const uint32_t& size) :
+        size(size) {
+
+    tree = new uint32_t[size];
+
+    for (uint32_t i = 0; i < size; ++i) {
+        tree[i] = 0;
+    }
+}
+
+FenwickTree::~FenwickTree() {
+
+    delete tree;
 }

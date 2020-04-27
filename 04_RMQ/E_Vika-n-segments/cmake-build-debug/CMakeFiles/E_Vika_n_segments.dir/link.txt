@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/E_Vika_n_segments.dir/main.cpp.o  -o E_Vika_n_segments 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/A_Backpack.dir/main.cpp.o  -o A_Backpack 

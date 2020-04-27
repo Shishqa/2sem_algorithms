@@ -1,0 +1,4 @@
+/snap/clion/111/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/shishqa/repositories/MIPT/2020_2/alg/04_RMQ/F_Rocks
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/shishqa/repositories/MIPT/2020_2/alg/04_RMQ/F_Rocks/cmake-build-debug

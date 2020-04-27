@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/F_nails.dir/main.cpp.o  -o F_nails 
