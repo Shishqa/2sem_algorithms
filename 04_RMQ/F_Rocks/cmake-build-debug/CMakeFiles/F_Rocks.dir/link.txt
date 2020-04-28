@@ -1,0 +1,1 @@
+/usr/bin/c++   -fsanitize=undefined -g   CMakeFiles/F_Rocks.dir/main.cpp.o  -o F_Rocks 

@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shishqa/repositories/MIPT/2020_2/alg/05_DP/B_Polyndromes/main.cpp
+iostream
+-
+vector
+-
+string
+-
+

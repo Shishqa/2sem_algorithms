@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shishqa/repositories/MIPT/2020_2/alg/06_Graphs/E_Aviasales/main.cpp
+iostream
+-
+vector
+-
+utility
+-
+set
+-
+climits
+-
+

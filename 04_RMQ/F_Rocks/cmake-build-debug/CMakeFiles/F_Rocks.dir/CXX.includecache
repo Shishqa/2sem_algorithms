@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shishqa/repositories/MIPT/2020_2/alg/04_RMQ/F_Rocks/main.cpp
+iostream
+-
+vector
+-
+algorithm
+-
+

@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shishqa/Repositories/MIPT/2-semester/Algorithms_Grishutin/03_SearchTrees/B_river/main.cpp
+iostream
+-
+vector
+-
+utility
+-
+stdexcept
+-
+algorithm
+-
+cstdio
+-
+ctime
+-
+fstream
+-
+

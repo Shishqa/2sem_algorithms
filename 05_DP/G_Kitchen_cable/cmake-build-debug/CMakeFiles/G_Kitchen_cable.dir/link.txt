@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/G_Kitchen_cable.dir/main.cpp.o  -o G_Kitchen_cable 

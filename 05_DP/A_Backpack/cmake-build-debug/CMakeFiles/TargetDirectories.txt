@@ -1,0 +1,3 @@
+/home/shishqa/repositories/MIPT/2020_2/alg/05_DP/A_Backpack/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/shishqa/repositories/MIPT/2020_2/alg/05_DP/A_Backpack/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/shishqa/repositories/MIPT/2020_2/alg/05_DP/A_Backpack/cmake-build-debug/CMakeFiles/A_Backpack.dir

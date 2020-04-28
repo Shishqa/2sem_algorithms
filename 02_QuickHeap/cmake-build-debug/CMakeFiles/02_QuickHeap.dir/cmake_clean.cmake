@@ -1,9 +1,7 @@
 file(REMOVE_RECURSE
-  "02_QuickHeap.exe"
-  "02_QuickHeap.exe.manifest"
+  "02_QuickHeap"
   "02_QuickHeap.pdb"
-  "CMakeFiles/02_QuickHeap.dir/main.cpp.obj"
-  "lib02_QuickHeap.dll.a"
+  "CMakeFiles/02_QuickHeap.dir/main.cpp.o"
 )
 
 # Per-language clean rules from dependency scanning.
