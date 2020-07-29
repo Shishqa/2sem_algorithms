@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shishqa/repositories/MIPT/2020_2/alg/06_Graphs/D_Carroll_distance/main.cpp
+cstring
+-
+cstdio
+-
+iostream
+-
+map
+-
+string_view
+-
+vector
+-
+
